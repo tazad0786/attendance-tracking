@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: attendance-tracking
+attendance.calculation.cron.config: 0 0 23 * * *
+#LOCAL Profile
+---
+spring:
+  security:
+    enabled: false
+  config:
+    activate:
+      on-profile: local
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: attendance
+  kafka:
+    bootstrap-servers: localhost:9092  # Replace with your Kafka bootstrap servers
+    consumer:
+      group-id: tracking-consumer-group
+      auto-offset-reset: earliest
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    listener:
+      ack-mode: manual-immediate
+    properties:
+     spring:
+       kafka:
+         producer:
+           bootstrap-servers: localhost:9092
+         consumer:
+           bootstrap-servers: localhost:9092
+daily-attendance: daily_attendance_topic
+daily-swipe: daily_swipe_topic
+
+# PROD Profile
+---
+#spring:
+#  config:
+#    activate:
+#      on-profile: prod
+#  data:
+#    mongodb:
+#      host: attendance-system-cluster.cluster-c3w6ow8qwe3l.us-east-1.docdb.amazonaws.com
+#      port: 27017
+#      database: attendance
+#      username: tanazad1
+#      password: tanazad1
+
